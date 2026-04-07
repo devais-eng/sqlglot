@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-04-07)
 ## Current Position
 
 Phase: 1 of 2 (Tokenizer + Scaffold)
-Plan: — of — in current phase
-Status: Ready to plan
-Last activity: 2026-04-07 — Roadmap created, ready to plan Phase 1
+Plan: 1 of 1 in current phase
+Status: Plan 01-01 complete — ready for Phase 2
+Last activity: 2026-04-07 — Plan 01-01 executed: Parlante dialect scaffold + tokenizer
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -27,11 +27,11 @@ Progress: [░░░░░░░░░░] 0%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-tokenizer-scaffold | 1 | ~2min | ~2min |
 
 **Recent Trend:**
-- Last 5 plans: —
-- Trend: —
+- Last 5 plans: 01-01 (~2min)
+- Trend: On track
 
 *Updated after each plan completion*
 
@@ -45,6 +45,8 @@ Recent decisions affecting current work:
 - MATCH → PARLANTE_MATCH rename: `MATCH` is a SQL keyword; prefixed name avoids MySQL MATCH...AGAINST collision
 - Operators as `TokenType.OPERATOR`: Reuses existing Postgres `exp.Operator`, no new expression class needed
 - Dialect lives in `sqlglot/dialects/parlante.py`: Standard location, auto-registration via metaclass
+- Keyword spread ordering: **Postgres.Tokenizer.KEYWORDS spread first so <=> override takes effect (plan 01-01)
+- DIALECTS list only (not Dialects enum): metaclass auto-registers via clsname.lower() (plan 01-01)
 
 ### Pending Todos
 
@@ -59,5 +61,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-04-07
-Stopped at: Roadmap written — Phase 1 ready to plan
+Stopped at: Completed 01-01-PLAN.md — Parlante dialect scaffold + tokenizer
 Resume file: None
