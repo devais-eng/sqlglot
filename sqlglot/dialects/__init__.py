@@ -81,6 +81,7 @@ DIALECTS = [
     "Materialize",
     "MySQL",
     "Oracle",
+    "Parlante",
     "Postgres",
     "Presto",
     "PRQL",
