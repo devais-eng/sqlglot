@@ -26,7 +26,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. `@@@`, `|||`, `###`, `===` each tokenize as a single `TokenType.OPERATOR` token — not split into shorter sub-tokens
   3. `<=>` tokenizes as `TokenType.OPERATOR` (overrides the base `NULLSAFE_EQ` mapping)
   4. `@@` and `<->` tokenize identically under the Parlante dialect as they do under the Postgres dialect (no regression)
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Create parlante.py dialect scaffold, register in __init__.py, write tokenizer tests
 
 ### Phase 2: Parser + Generator + Tests
 **Goal**: Every Parlante operator and function name survives a full parse → generate round-trip, producing identical SQL to the input
@@ -47,5 +50,5 @@ Phases execute in numeric order: 1 → 2
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Tokenizer + Scaffold | 0/TBD | Not started | - |
+| 1. Tokenizer + Scaffold | 0/1 | Not started | - |
 | 2. Parser + Generator + Tests | 0/TBD | Not started | - |
