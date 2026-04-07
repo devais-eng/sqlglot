@@ -41,7 +41,10 @@ Plans:
   3. `PHRASE_MATCH(col, 'query')` parses to `exp.Anonymous("PARLANTE_PHRASE_MATCH", ...)` and generates back as `PHRASE_MATCH(col, 'query')` with exact case
   4. `@@` (tsvector) and `<->` (L2 distance) parse and generate correctly and unchanged under the Parlante dialect (no regression from Phase 1 or Phase 2 changes)
   5. The full Postgres test suite passes with no new failures after Parlante dialect is introduced
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 02-01-PLAN.md — Create parser + generator files, wire dialect, extend tests, verify round-trips and Postgres regression
 
 ## Progress
 
@@ -51,4 +54,4 @@ Phases execute in numeric order: 1 → 2
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Tokenizer + Scaffold | 0/1 | Not started | - |
-| 2. Parser + Generator + Tests | 0/TBD | Not started | - |
+| 2. Parser + Generator + Tests | 0/1 | Not started | - |
