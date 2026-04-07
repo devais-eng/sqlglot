@@ -5,20 +5,59 @@
 See: .planning/PROJECT.md (updated 2026-04-07)
 
 **Core value:** Native Parlante dialect — no regex preprocessing, mypyc-compilable
-**Current focus:** Defining requirements for v1.0
+**Current focus:** Phase 1 — Tokenizer + Scaffold
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-04-07 — Milestone v1.0 started
+Phase: 1 of 2 (Tokenizer + Scaffold)
+Plan: — of — in current phase
+Status: Ready to plan
+Last activity: 2026-04-07 — Roadmap created, ready to plan Phase 1
+
+Progress: [░░░░░░░░░░] 0%
+
+## Performance Metrics
+
+**Velocity:**
+- Total plans completed: 0
+- Average duration: —
+- Total execution time: —
+
+**By Phase:**
+
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| - | - | - | - |
+
+**Recent Trend:**
+- Last 5 plans: —
+- Trend: —
+
+*Updated after each plan completion*
 
 ## Accumulated Context
 
-- `PARLANTE_DIALECT.md` in repo root is the detailed implementation spec — read this before planning any phase
-- The Parlante library lives at `github.com/filippoGaffuriRiva/parlante`; `src/parlante/dialect.py` has the Generator logic to migrate
-- Parlante extends `Postgres` dialect — all Postgres parsing behavior is inherited
-- `<->` (L2 distance) already parses as `exp.Distance` in Postgres — do not add it to new token types
-- `_native_operator_sql` function from the Parlante library should move into the fork's dialect file
-- Codebase map available at `.planning/codebase/` (generated 2026-04-07)
+### Decisions
+
+Decisions are logged in PROJECT.md Key Decisions table.
+Recent decisions affecting current work:
+
+- MATCH → PARLANTE_MATCH rename: `MATCH` is a SQL keyword; prefixed name avoids MySQL MATCH...AGAINST collision
+- Operators as `TokenType.OPERATOR`: Reuses existing Postgres `exp.Operator`, no new expression class needed
+- Dialect lives in `sqlglot/dialects/parlante.py`: Standard location, auto-registration via metaclass
+
+### Pending Todos
+
+None yet.
+
+### Blockers/Concerns
+
+- Phase 2 watch-out: `FUNCTION_PARSERS["MATCH"]` takes priority over `FUNCTIONS["MATCH"]` — must remove the key from `FUNCTION_PARSERS` in Parlante's Parser (see research SUMMARY.md §Critical Watch-Outs #1)
+- Phase 2 watch-out: `RANGE_PARSERS[TokenType.OPERATOR]` must be overridden — adding to KEYWORDS alone is insufficient for infix `@@@` parsing (research §Critical Watch-Outs #2)
+- Phase 2 watch-out: `exp.Operator` is already in `Postgres.Generator.TRANSFORMS` — auto-discovered `operator_sql` will be silently ignored; must use `TRANSFORMS = {**Postgres.Generator.TRANSFORMS, exp.Operator: ...}` (research §Critical Watch-Outs #3)
+
+## Session Continuity
+
+Last session: 2026-04-07
+Stopped at: Roadmap written — Phase 1 ready to plan
+Resume file: None
