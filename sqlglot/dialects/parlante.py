@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from sqlglot.dialects.postgres import Postgres
 from sqlglot.generators.parlante import ParlanteGenerator
-from sqlglot.parsers.parlante import ParlanteParse
+from sqlglot.parsers.parlante import ParlanteParse, ParlanteMatch, ParlantePhraseMatch
 from sqlglot.tokens import TokenType
+
+__all__ = ["Parlante", "ParlanteMatch", "ParlantePhraseMatch"]
 
 
 class Parlante(Postgres):

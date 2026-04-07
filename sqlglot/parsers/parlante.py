@@ -5,13 +5,25 @@ from sqlglot.parsers.postgres import PostgresParser
 from sqlglot.tokens import TokenType
 
 
+class ParlanteMatch(exp.Expression, exp.Func):
+    arg_types = {"this": True, "expressions": False}
+    is_var_len_args = True
+    _sql_names = ["MATCH"]
+
+
+class ParlantePhraseMatch(exp.Expression, exp.Func):
+    arg_types = {"this": True, "expressions": False}
+    is_var_len_args = True
+    _sql_names = ["PHRASE_MATCH"]
+
+
 class ParlanteParse(PostgresParser):
     FUNCTION_PARSERS = {k: v for k, v in PostgresParser.FUNCTION_PARSERS.items() if k != "MATCH"}
 
     FUNCTIONS = {
         **PostgresParser.FUNCTIONS,
-        "MATCH": lambda args: exp.Anonymous(this="PARLANTE_MATCH", expressions=args),
-        "PHRASE_MATCH": lambda args: exp.Anonymous(this="PARLANTE_PHRASE_MATCH", expressions=args),
+        "MATCH": ParlanteMatch.from_arg_list,
+        "PHRASE_MATCH": ParlantePhraseMatch.from_arg_list,
     }
 
     RANGE_PARSERS = {

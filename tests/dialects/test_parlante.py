@@ -2,6 +2,7 @@ import unittest
 
 import sqlglot
 from sqlglot import exp
+from sqlglot.dialects.parlante import ParlanteMatch, ParlantePhraseMatch
 from sqlglot.tokens import TokenType
 from tests.dialects.test_dialect import Validator
 
@@ -54,5 +55,44 @@ class TestParlante(Validator):
 
     def test_match_ast_type(self):
         result = self.parse_one("MATCH(col, 'query')")
-        self.assertIsInstance(result, exp.Anonymous)
-        self.assertEqual(result.name, "PARLANTE_MATCH")
+        self.assertIsInstance(result, ParlanteMatch)
+        phrase = self.parse_one("PHRASE_MATCH(col, 'query')")
+        self.assertIsInstance(phrase, ParlantePhraseMatch)
+
+    def test_operator_in_string_literal(self):
+        # '@@@' is a string value, not an infix operator
+        result = self.parse_one("SELECT '@@@'")
+        lit = result.expressions[0]
+        self.assertIsInstance(lit, exp.Literal)
+        self.assertEqual(lit.this, "@@@")
+        self.assertIsNone(result.find(exp.Operator))
+
+    def test_operator_as_quoted_identifier(self):
+        # "@@@" is a quoted column name, not an operator
+        result = self.parse_one('SELECT "@@@" FROM t')
+        self.assertIsNone(result.find(exp.Operator))
+        col = result.find(exp.Column)
+        self.assertIsNotNone(col)
+        self.assertEqual(col.name, "@@@")
+
+    def test_triple_equals_not_eq(self):
+        # === is a Parlante operator, not SQL equality
+        result = self.parse_one("col === 1")
+        self.assertIsInstance(result, exp.Operator)
+        self.assertNotIsInstance(result, exp.EQ)
+        self.assertEqual(result.args["operator"], "===")
+
+    def test_operators_in_select_context(self):
+        self.validate_identity("SELECT col @@@ 'query' FROM t")
+        self.validate_identity("SELECT * FROM t WHERE col <=> '[1,2,3]'")
+
+    def test_match_in_where_clause(self):
+        self.validate_identity("SELECT * FROM t WHERE MATCH(col, 'query')")
+        self.validate_identity("SELECT * FROM t WHERE PHRASE_MATCH(col, 'query')")
+
+    def test_spaceship_not_nullsafe_eq(self):
+        result = self.parse_one("col <=> '[0.1,0.2]'")
+        self.assertIsInstance(result, exp.Operator)
+        self.assertNotIsInstance(result, exp.NullSafeEQ)
+        self.assertEqual(result.args["operator"], "<=>")
+
