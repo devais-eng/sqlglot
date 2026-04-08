@@ -18,6 +18,12 @@ class ParlantePhraseMatch(exp.Expression, exp.Func):
 
 
 class ParlanteParse(PostgresParser):
+    # PARAMETER (@) must be in TABLE_POSTFIX_TOKENS so the fast-path in _parse_table does not
+    # consume "@branch" as a table alias before _parse_version gets a chance to handle it.
+    TABLE_POSTFIX_TOKENS = PostgresParser.TABLE_POSTFIX_TOKENS | frozenset(
+        [TokenType.PARAMETER]
+    )
+
     FUNCTION_PARSERS = {k: v for k, v in PostgresParser.FUNCTION_PARSERS.items() if k != "MATCH"}
 
     FUNCTIONS = {
@@ -36,3 +42,14 @@ class ParlanteParse(PostgresParser):
             )
         ),
     }
+
+    def _parse_version(self) -> exp.Version | None:
+        if self._match_text_seq("AT", "BRANCH"):
+            return self.expression(
+                exp.Version(this="BRANCH", kind="AT", expression=self._parse_id_var())
+            )
+        if self._match(TokenType.PARAMETER):
+            return self.expression(
+                exp.Version(this="BRANCH", kind="AT", expression=self._parse_id_var())
+            )
+        return super()._parse_version()

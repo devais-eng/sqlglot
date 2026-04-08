@@ -12,3 +12,9 @@ class ParlanteGenerator(PostgresGenerator):
         ParlanteMatch: lambda self, e: self.func("MATCH", e.this, *e.expressions, normalize=False),
         ParlantePhraseMatch: lambda self, e: self.func("PHRASE_MATCH", e.this, *e.expressions, normalize=False),
     }
+
+    def version_sql(self, expression: exp.Version) -> str:
+        if expression.name != "BRANCH":
+            self.unsupported(f"Parlante only supports AT BRANCH versioning, got: {expression.name!r}")
+            return ""
+        return f"AT BRANCH {self.sql(expression, 'expression')}"
