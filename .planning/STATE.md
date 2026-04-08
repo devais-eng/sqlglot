@@ -9,10 +9,10 @@ See: .planning/PROJECT.md (updated 2026-04-07)
 
 ## Current Position
 
-Phase: 2 of 2 (Parser + Generator + Tests)
+Phase: 3 of 3 (AT BRANCH and @branch table syntax)
 Plan: 1 of 1 in current phase
-Status: Plan 02-01 complete — milestone v1.0 complete
-Last activity: 2026-04-07 — Plan 02-01 executed: ParlanteParse + ParlanteGenerator + 10 passing tests
+Status: Plan 03-01 complete — AT BRANCH parser/generator overrides + 22 passing tests
+Last activity: 2026-04-08 — Plan 03-01 executed: _parse_version + version_sql + 6 new tests
 
 Progress: [██████████] 100%
 
@@ -29,6 +29,7 @@ Progress: [██████████] 100%
 |-------|-------|-------|----------|
 | 01-tokenizer-scaffold | 1 | ~2min | ~2min |
 | 02-parser-generator-tests | 1 | ~2min | ~2min |
+| 03-at-branch-and-branch-table-syntax | 1 | ~4min | ~4min |
 
 **Recent Trend:**
 - Last 5 plans: 01-01 (~2min)
@@ -51,6 +52,9 @@ Recent decisions affecting current work:
 - MATCH excluded from FUNCTION_PARSERS via dict comprehension to allow FUNCTIONS fallthrough (plan 02-01)
 - TRANSFORMS override required for exp.Operator — base generator TRANSFORMS already has the key; auto-discovered method silently ignored (plan 02-01)
 - anonymous_sql dispatch by name with super() fallback for PARLANTE_MATCH/PARLANTE_PHRASE_MATCH routing (plan 02-01)
+- TABLE_POSTFIX_TOKENS must include PARAMETER to bypass fast-path alias parsing for @branch shorthand (plan 03-01)
+- _parse_version checks AT BRANCH before PARAMETER — _match_text_seq is non-destructive on failure (plan 03-01)
+- version_sql uses self.unsupported() not raise for non-BRANCH Version expressions (plan 03-01)
 
 ### Roadmap Evolution
 
@@ -67,5 +71,4 @@ None — all Phase 2 watch-outs resolved in plan 02-01.
 ## Session Continuity
 
 Last session: 2026-04-08
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-at-branch-and-branch-table-syntax/03-CONTEXT.md
+Stopped at: Completed 03-01-PLAN.md — AT BRANCH parsing + 22 passing tests
