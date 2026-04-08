@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Tokenizer + Scaffold** - Register dialect and tokenize all five Parlante operators as single tokens
 - [ ] **Phase 2: Parser + Generator + Tests** - Wire operator parsing, function mappings, and generator output; verify with full test suite
-- [ ] **Phase 3: AT BRANCH and @branch table syntax** - Parse AT BRANCH / @branch clauses on table references and round-trip them
+- [x] **Phase 3: AT BRANCH and @branch table syntax** - Parse AT BRANCH / @branch clauses on table references and round-trip them (completed 2026-04-08)
 
 ## Phase Details
 
@@ -56,14 +56,14 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Tokenizer + Scaffold | 0/1 | Not started | - |
 | 2. Parser + Generator + Tests | 0/1 | Not started | - |
-| 3. AT BRANCH and @branch table syntax | 0/0 | Not started | - |
+| 3. AT BRANCH and @branch table syntax | 0/0 | Complete    | 2026-04-08 |
 
 ### Phase 3: AT BRANCH and @branch table syntax
 
 **Goal:** Both `AT BRANCH <name>` and `@<name>` syntax forms parse to `exp.Version` and generate back as `AT BRANCH <name>`, with no regressions on existing operators or Postgres tests
 **Depends on:** Phase 2
 **Requirements:** BRN-01, BRN-02, BRN-03, BRN-04, BRN-05, BRN-06, BRN-07
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 03-01-PLAN.md — Add _parse_version + version_sql overrides and AT BRANCH tests
