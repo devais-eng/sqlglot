@@ -52,6 +52,10 @@ Recent decisions affecting current work:
 - TRANSFORMS override required for exp.Operator — base generator TRANSFORMS already has the key; auto-discovered method silently ignored (plan 02-01)
 - anonymous_sql dispatch by name with super() fallback for PARLANTE_MATCH/PARLANTE_PHRASE_MATCH routing (plan 02-01)
 
+### Roadmap Evolution
+
+- Phase 3 added: AT BRANCH and @branch table syntax
+
 ### Pending Todos
 
 None yet.
@@ -62,6 +66,6 @@ None — all Phase 2 watch-outs resolved in plan 02-01.
 
 ## Session Continuity
 
-Last session: 2026-04-07
-Stopped at: Completed 02-01-PLAN.md — ParlanteParse + ParlanteGenerator + 10 tests; milestone v1.0 complete
-Resume file: None
+Last session: 2026-04-08
+Stopped at: Phase 3 context gathered
+Resume file: .planning/phases/03-at-branch-and-branch-table-syntax/03-CONTEXT.md
